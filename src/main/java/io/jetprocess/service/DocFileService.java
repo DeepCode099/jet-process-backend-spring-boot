@@ -16,5 +16,5 @@ public interface DocFileService {
 
 	public void deleteDocFile(long docFileId);
 	
-	public String generateFileNo(DocFile docFile);
+	/* public String generateFileNo(DocFile docFile); */
 }
