@@ -24,9 +24,12 @@ public class DocFileServiceImpl implements DocFileService {
 		if (docFile.getType().equals("SFS")) {
 			docFile.setHeadId(0);
 		}
-		docFile= docFileRepository.save(docFile);
-		String fileNo = generateFileNo(docFile);
-		docFile.setFileNo(fileNo);
+		/*
+		 * else if(docFile.getType().equals("NON-SFS")) { String fileNo =
+		 * generateFileNo(docFile); docFile.setFileNo(fileNo); } return
+		 * docFileRepository.save(docFile);
+		 */
+
 		return docFileRepository.save(docFile);
 	}
 
@@ -75,11 +78,9 @@ public class DocFileServiceImpl implements DocFileService {
 		docFileRepository.deleteById(docFileId);
 	}
 
-	@Override
-	public String generateFileNo(DocFile docFile) {
-		String number = String.valueOf(docFile.getId());
-		String fileNo = 'F' + number;
-		return fileNo;
-	}
-
+	/*
+	 * @Override public String generateFileNo(DocFile docFile) { String number =
+	 * String.valueOf(docFile.getId()); String fileNo = 'F' + number; return fileNo;
+	 * }
+	 */
 }
