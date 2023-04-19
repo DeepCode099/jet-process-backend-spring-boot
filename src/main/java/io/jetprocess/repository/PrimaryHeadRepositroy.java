@@ -11,4 +11,6 @@ public interface PrimaryHeadRepositroy extends JpaRepository<PrimaryHead, Long> 
 
 	@Query(value = "select * from md_primaryhead where basicheadid = ?", nativeQuery = true)
 	public List<PrimaryHead> getAllPrimaryHeadsByBasicHeadId(long basicHeadId);
+
+	
 }
