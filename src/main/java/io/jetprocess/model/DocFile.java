@@ -2,12 +2,18 @@ package io.jetprocess.model;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name ="jp_docfile")
@@ -23,7 +29,10 @@ public class DocFile {
 	private long companyId;
 	private long userId;
 	private String userName;
+
+	@JsonFormat(pattern ="dd-MM-yyyy hh:mm:ss" ,timezone = "Asia/Kolkata")
 	private Date createDate;
+	@JsonFormat(pattern ="dd-MM-yyyy hh:mm:ss" , timezone = "Asia/Kolkata")
 	private Date modifiedDate;
 	/*  Other Fields  */
 	private String nature;
@@ -71,17 +80,18 @@ public class DocFile {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	
 	public Date getCreateDate() {
 		return createDate;
 	}
 	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+		this.createDate = new Date();
 	}
 	public Date getModifiedDate() {
 		return modifiedDate;
 	}
 	public void setModifiedDate(Date modifiedDate) {
-		this.modifiedDate = modifiedDate;
+		this.modifiedDate = new Date();
 	}
 	public String getNature() {
 		return nature;
