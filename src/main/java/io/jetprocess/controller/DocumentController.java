@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +36,16 @@ public class DocumentController {
 	
 	@PostMapping("/upload")
 	public ResponseEntity<Document> uploadDocument(@RequestParam("documentImage") MultipartFile file) throws IOException{
+		
 		return new ResponseEntity<Document>(documentService.uploadDocumentToFileSystem(path,file), HttpStatus.OK);
 	}
 
 	@GetMapping("/download/{documentName}")
-	public ResponseEntity<byte[]> downloadDocument(@PathVariable String documentName) throws IOException {
-		byte[] image = documentService.downloadDocument(documentName);
-		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
+	public ResponseEntity<ByteArrayResource> downloadDocument(@PathVariable String documentName) throws IOException {
+		byte[] pdfBytes = documentService.downloadDocument(documentName);
+		ByteArrayResource resource = new ByteArrayResource(pdfBytes);
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename=" + documentName)
+				.contentType(MediaType.APPLICATION_PDF).contentLength(pdfBytes.length).body(resource);
 	}
 	
 	@GetMapping
