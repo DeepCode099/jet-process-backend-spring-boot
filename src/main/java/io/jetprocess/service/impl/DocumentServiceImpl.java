@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,13 @@ public class DocumentServiceImpl implements DocumentService {
 	public Document uploadDocumentToFileSystem(String path, MultipartFile file) throws IOException {
 		// Get name
 		String name = file.getOriginalFilename();
+		
+		String extension = name.substring(name.lastIndexOf("."));
+		
+		System.out.println("extension -->"+extension);
 		// Generate Random Id
 		String randomId = UUID.randomUUID().toString();
-		String fileName = randomId.concat(name.substring(name.lastIndexOf(".")));
+		String fileName = randomId.concat(extension);
 		// Get Full Path
 		String fullPath = path + "/" + fileName;
 		// create folder if not created
@@ -41,9 +46,11 @@ public class DocumentServiceImpl implements DocumentService {
 		// Files.copy(file.getInputStream(),Paths.get(fullPath));
 		// String fullPath = FOLDER_PATH + file.getOriginalFilename();
 		Document documentImage = new Document();
+		documentImage.setCompanyId(20097);
+		documentImage.setGroupId(20123);
+		documentImage.setExtension(extension);
 		documentImage.setFileName(fileName);
 		documentImage.setMimeType(file.getContentType());
-		documentImage.setCompanyId(1);
 		documentImage.setCreateDate(new Date());
 		documentImage.setModifiedDate(new Date());
 		documentImage.setTreePath(fullPath);
@@ -52,13 +59,9 @@ public class DocumentServiceImpl implements DocumentService {
 	}
 
 	@Override
-	public byte[] downloadDocument(String documentName) throws IOException {
-
-		System.out.println("fileName --->" + documentName);
-		Document documentObject = documentRepository.findByFileName(documentName);
-		System.out.println("documentObject --->" + documentObject);
-		String fullPath = documentObject.getTreePath();
-		System.out.println("fullPath--->" + fullPath);
+	public byte[] downloadDocument(String fileName) throws IOException {
+	    Optional<Document>	documentObject = documentRepository.findByName(fileName);
+		String fullPath = documentObject.get().getTreePath();
 		return Files.readAllBytes(new File(fullPath).toPath());
 	}
 

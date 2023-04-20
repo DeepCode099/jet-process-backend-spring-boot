@@ -24,6 +24,8 @@ public class DocFileServiceImpl implements DocFileService {
 		if (docFile.getType().equals("SFS")) {
 			docFile.setHeadId(0);
 		}
+		
+		
 		/*
 		 * else if(docFile.getType().equals("NON-SFS")) { String fileNo =
 		 * generateFileNo(docFile); docFile.setFileNo(fileNo); } return
