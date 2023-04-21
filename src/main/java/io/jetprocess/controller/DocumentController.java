@@ -36,7 +36,6 @@ public class DocumentController {
 	
 	@PostMapping("/upload")
 	public ResponseEntity<Document> uploadDocument(@RequestParam("documentImage") MultipartFile file) throws IOException{
-		
 		return new ResponseEntity<Document>(documentService.uploadDocumentToFileSystem(path,file), HttpStatus.OK);
 	}
 
