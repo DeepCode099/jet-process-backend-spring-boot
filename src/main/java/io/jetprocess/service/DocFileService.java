@@ -6,9 +6,9 @@ import io.jetprocess.model.DocFile;
 
 public interface DocFileService {
 
-	public DocFile createDocFile(DocFile docFile);
+	public DocFile createDocFile(DocFile docFile) ;
 
-	public List<DocFile> getAllDocFiles();
+	public List<DocFile> getAllDocFiles() ;
 
 	public DocFile getDocFileById(long docFileId);
 

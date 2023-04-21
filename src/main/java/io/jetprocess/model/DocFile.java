@@ -85,13 +85,13 @@ public class DocFile {
 		return createDate;
 	}
 	public void setCreateDate(Date createDate) {
-		this.createDate = new Date();
+		this.createDate = createDate;
 	}
 	public Date getModifiedDate() {
 		return modifiedDate;
 	}
 	public void setModifiedDate(Date modifiedDate) {
-		this.modifiedDate = new Date();
+		this.modifiedDate = modifiedDate;
 	}
 	public String getNature() {
 		return nature;

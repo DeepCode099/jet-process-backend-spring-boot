@@ -1,5 +1,6 @@
 package io.jetprocess.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -24,7 +25,8 @@ public class DocFileServiceImpl implements DocFileService {
 		if (docFile.getType().equals("SFS")) {
 			docFile.setHeadId(0);
 		}
-		
+		docFile.setCreateDate(new Date());
+		docFile.setModifiedDate(new Date());
 		
 		/*
 		 * else if(docFile.getType().equals("NON-SFS")) { String fileNo =
@@ -48,14 +50,13 @@ public class DocFileServiceImpl implements DocFileService {
 
 	@Override
 	public DocFile updateDocFile(DocFile docFile, long docFileId) {
-		DocFile existingDocFile = docFileRepository.findById(docFileId)
+		DocFile existingDocFile = docFileRepository.findById(docFile.getId())
 				.orElseThrow(() -> new ResourceNotFoundException("DocFile", "Id", docFileId));
 		existingDocFile.setGroupId(docFile.getGroupId());
 		existingDocFile.setCompanyId(docFile.getCompanyId());
 		existingDocFile.setUserId(docFile.getUserId());
 		existingDocFile.setUserName(docFile.getUserName());
-		existingDocFile.setCreateDate(docFile.getCreateDate());
-		existingDocFile.setModifiedDate(docFile.getModifiedDate());
+		existingDocFile.setModifiedDate(new Date());
 		existingDocFile.setNature(docFile.getNature());
 		existingDocFile.setType(docFile.getNature());
 		existingDocFile.setHeadId(docFile.getHeadId());
