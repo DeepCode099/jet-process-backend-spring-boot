@@ -14,4 +14,8 @@ public interface DocumentService {
 	public byte[] downloadDocument(String fileName) throws IOException;
 	
 	public List<Document> getAllUploadedDocumentList();
+	
+	public void delete(long id);
+	
+	public List<Document> uploadMultiple(String path , MultipartFile[] file) throws IOException;
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.Clock;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -86,10 +87,43 @@ public class DocumentServiceImpl implements DocumentService {
 		return documentRepository.findAll();
 	}
 
-	/*
-	 * public byte[] downloadDocument(String fileName) throws IOException{
-	 * Optional<ProductImage> imageObject = imageRepo.findByName(fileName); String
-	 * fullPath = imageObject.get().getImagePath(); return Files.readAllBytes(new
-	 * File(fullPath).toPath()); }
-	 */
+	@Override
+	public void delete(long id) {
+		documentRepository.deleteById(id);
+	}
+
+	@Override
+	public List<Document> uploadMultiple(String path, MultipartFile[] files) throws IOException {
+	    List<Document> uploadedDocuments = new ArrayList<>();
+	    for (MultipartFile file : files) {
+	        String name = file.getOriginalFilename();
+	        String extension = name.substring(name.lastIndexOf("."));
+	        String[] nameArray = name.split(".pdf");
+	        String fileNameWithoutExtension = null;
+	        for (int i = 0; i < nameArray.length; i++) {
+	            fileNameWithoutExtension = nameArray[0];
+	        }
+	        Clock clock = Clock.systemDefaultZone();
+	        long milliseconds = clock.millis();
+	        String newFileName = fileNameWithoutExtension + milliseconds + extension;
+	        String fullPath = path + "/" + newFileName;
+	        File f = new File(path);
+	        if (!f.exists()) {
+	            f.mkdir();
+	        }
+	        Document document = new Document();
+	        document.setCompanyId(20097);
+	        document.setGroupId(20123);
+	        document.setExtension(extension);
+	        document.setFileName(newFileName);
+	        document.setMimeType(file.getContentType());
+	        document.setCreateDate(new Date());
+	        document.setModifiedDate(new Date());
+	        document.setTreePath(fullPath);
+	        file.transferTo(new File(fullPath));
+	        uploadedDocuments.add(documentRepository.save(document));
+	    }
+	    return uploadedDocuments;
+	}
+
 }

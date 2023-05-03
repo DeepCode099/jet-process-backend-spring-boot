@@ -51,14 +51,14 @@ public class DocFileController {
 	}
 	
 	// build update docFile REST API
-	// http://localhost:8080/api/docFile/v1/1
+	// http://localhost:8080/api/v1/docFile/1
 	@PutMapping("{id}")
 	public ResponseEntity<DocFile> updateDocFile(@PathVariable("id") long id ,@RequestBody DocFile docFile){
 		return new ResponseEntity<DocFile>(docFileService.updateDocFile(docFile, id), HttpStatus.OK);
 	}
 	
 	// build delete docFile REST API
-	// http://localhost:8080/api/docFile/1
+	// http://localhost:8080/api/v1/docFile/1
 	@DeleteMapping("{id}")
 	public ResponseEntity<String> deleteDocFile(@PathVariable("id") long id){
 		// delete docFile from DB
